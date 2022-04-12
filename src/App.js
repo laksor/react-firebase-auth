@@ -1,5 +1,5 @@
 import "./App.css";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import app from "./firebase.init";
 import { Button, Container, Form, Row } from "react-bootstrap";
 import { useState } from "react";
@@ -53,6 +53,7 @@ function App() {
         console.log(user);
         setEmail('');
         setPassword('');
+        verifyEmail();
       })
       .catch((error) => {
         console.log(error);
@@ -62,8 +63,18 @@ function App() {
     event.preventDefault();
   }
 
+   const passReset = () =>{
+     sendPasswordResetEmail(auth, email)
+     .then(() =>{
+       console.log('password reset');
+     })
+   }
+
   const verifyEmail = () =>{
-    
+    sendEmailVerification(auth.currentUser)
+    .then( () =>{
+      console.log('email verify');
+    })
   }
 
   return (
@@ -110,6 +121,8 @@ function App() {
                 feedbackType="invalid"
               />
             </Form.Group>
+            <Button onClick={passReset} variant="link">forget password ? </Button>
+            <br />
             <Button className="rounded-pill" variant="danger" type="submit">
               {registered ? 'Login' : 'Register'}
             </Button>
