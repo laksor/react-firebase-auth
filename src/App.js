@@ -182,7 +182,7 @@ function App() {
             </Button>
           </Form>
 
-          <h3 className="mt-3 text-center"> Or </h3>
+          <h3 className="mt-3 text-center">------ Or ------</h3>
           <Button onClick={handleGoogle} className="btn btn-success fw-bold rounded-pill mt-2">Continue with Google</Button>
         </Row>
       </Container>
