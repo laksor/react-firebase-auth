@@ -5,6 +5,7 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import app from "./firebase.init";
 import { Button, Container, Form, Row } from "react-bootstrap";
@@ -41,7 +42,6 @@ function App() {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
-
     setValidated(true);
 
     if (registered) {
@@ -56,7 +56,8 @@ function App() {
           console.log(error);
           setError(error.message);
         });
-    } else {
+    } 
+    else {
       createUserWithEmailAndPassword(auth, email, password)
         .then((result) => {
           const user = result.user;
@@ -64,6 +65,7 @@ function App() {
           setEmail("");
           setPassword("");
           verifyEmail();
+          setUserName();
         })
         .catch((error) => {
           console.log(error);
@@ -77,6 +79,18 @@ function App() {
     sendPasswordResetEmail(auth, email).then(() => {
       console.log("password reset");
     });
+  };
+
+  const setUserName = () =>{
+    updateProfile(auth.currentUser, {
+      displayName: name
+    })
+    .then(() =>{
+      console.log('updating name');
+    })
+    .catch((error) =>{
+      setError(error.message);
+    })
   };
 
   const verifyEmail = () => {
