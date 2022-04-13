@@ -2,9 +2,11 @@ import "./App.css";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  GoogleAuthProvider,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  signInWithPopup,
   updateProfile,
 } from "firebase/auth";
 import app from "./firebase.init";
@@ -99,6 +101,18 @@ function App() {
     });
   };
 
+  const handleGoogle = () =>{
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+    .then((result) =>{
+      const user = result.user;
+      console.log(user);
+    })
+    .catch((error) =>{
+      setError(error.message);
+    })
+  };
+
   return (
     <div>
       <Container className="shadow-lg p-5 mt-5 rounded">
@@ -167,6 +181,9 @@ function App() {
               {registered ? "Login" : "Register"}
             </Button>
           </Form>
+
+          <h3 className="mt-3 text-center"> Or </h3>
+          <Button onClick={handleGoogle} className="btn btn-success fw-bold rounded-pill mt-2">Continue with Google</Button>
         </Row>
       </Container>
     </div>
